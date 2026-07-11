@@ -1,0 +1,1 @@
+<form method="post"><button name="action" value="clear">Clear All</button></form>{% for r in rows %}<div>{{r}}<form method=post><input type=hidden name=id value="{{r[0]}}"><button>Delete</button></form></div>{% endfor %}

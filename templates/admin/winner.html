@@ -1,0 +1,21 @@
+{% extends "admin/_base.html" %}
+{% block content %}
+<div class="card center">
+  <h2>🏆 Winner</h2>
+  {% if winner %}
+    <p class="big">{{ winner.name }}</p>
+    <p>Total score: <strong>{{ winner.total }}</strong></p>
+  {% else %}
+    <p class="muted">No results yet.</p>
+  {% endif %}
+</div>
+{% if leaderboard %}
+<div class="card">
+  <h3>Final Standings</h3>
+  <table class="leaderboard">
+    <thead><tr><th>Rank</th><th>Team</th><th>Total</th><th>Violations</th></tr></thead>
+    <tbody>{% for row in leaderboard %}<tr {% if row.rank == 1 %}class="winner"{% endif %}><td>{{ row.rank }}</td><td>{{ row.name }}</td><td>{{ row.total }}</td><td>{{ row.violations }}</td></tr>{% endfor %}</tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}

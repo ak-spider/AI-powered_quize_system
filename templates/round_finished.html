@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+{% block title %}Round {{ round_number }} done{% endblock %}
+{% block content %}
+<div class="card center">
+  <h2>Round {{ round_number }} Complete</h2>
+  <p>Your score this round: <strong>{{ score }}</strong></p>
+  {% if auto_submitted %}
+    <p class="flash error">Your answers were auto-submitted after repeated tab-switch / copy violations.</p>
+  {% elif violation_count %}
+    <p class="muted">Violations recorded this round: {{ violation_count }}</p>
+  {% endif %}
+  <p>Waiting for the next round…</p>
+  <div class="spinner"></div>
+</div>
+<script>
+  setInterval(async () => {
+    const r = await fetch("{{ url_for('quiz.status') }}");
+    const s = await r.json();
+    if (s.finished || s.your_mode === "finished") location.href = "{{ url_for('quiz.thank_you') }}";
+    else if (s.your_mode === "active") location.href = "{{ url_for('quiz.quiz') }}";
+  }, 2000);
+</script>
+{% endblock %}

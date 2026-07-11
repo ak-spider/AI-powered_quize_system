@@ -1,0 +1,17 @@
+{% extends "admin/_base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Leaderboard</h2>
+  <table class="leaderboard">
+    <thead><tr><th>Rank</th><th>Team</th><th>Total</th><th>Violations</th></tr></thead>
+    <tbody>
+    {% for row in leaderboard %}
+      <tr {% if row.rank == 1 %}class="winner"{% endif %}>
+        <td>{{ row.rank }}</td><td>{{ row.name }}</td><td>{{ row.total }}</td>
+        <td>{{ row.violations }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

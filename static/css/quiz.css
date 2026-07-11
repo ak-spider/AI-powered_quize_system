@@ -1,0 +1,54 @@
+.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.header-right{display:flex;align-items:center;gap:10px}
+
+.no-select{ user-select:none; -webkit-user-select:none; -ms-user-select:none; }
+
+.anticheat-notice{ font-size:.82rem; margin:-6px 0 14px; }
+
+.violation-badge{
+  font-size:.78rem;font-weight:700;color:#fff;padding:5px 12px;border-radius:999px;
+  background: linear-gradient(135deg, #64748b, #475569);
+  white-space:nowrap;
+}
+.violation-badge.danger{
+  background: linear-gradient(135deg, #ff5c72, var(--color-danger));
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.violation-banner{
+  position:fixed; top:16px; left:50%; transform:translateX(-50%) translateY(-12px);
+  background: linear-gradient(120deg, #ff5c72, var(--color-danger));
+  color:#fff; padding:12px 20px; border-radius:10px; font-weight:600;
+  box-shadow:0 8px 24px rgba(230,57,80,.35); z-index:1000; max-width:90vw;
+  opacity:0; pointer-events:none; transition: opacity .2s ease, transform .2s ease;
+}
+.violation-banner.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+.timer{
+  font-size:1.4rem;font-weight:bold;color:#fff;padding:6px 16px;border-radius:999px;
+  background: linear-gradient(135deg, var(--color-success), #0f766e);
+  box-shadow: 0 2px 8px rgba(13,148,136,.3);
+}
+.timer.warning{
+  background: linear-gradient(135deg, #ff5c72, var(--color-danger));
+  box-shadow: 0 2px 8px rgba(230,57,80,.35);
+  animation: pulse 1s ease-in-out infinite;
+}
+@keyframes pulse{ 50%{ transform: scale(1.05); } }
+
+.question{border-top:1px solid var(--color-border);padding:16px 0}
+.question p{margin:0 0 10px;font-weight:600;color:var(--color-ink)}
+
+.opt{
+  display:block;padding:10px 12px;
+  border:1.5px solid var(--color-border);
+  border-radius:8px;margin:6px 0;cursor:pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+.opt:hover{ background: var(--color-bg); border-color: var(--color-primary-light); }
+.opt input{width:auto;margin-right:8px;accent-color: var(--color-primary);}
+.opt:has(input:checked){
+  border-color: var(--color-primary);
+  background: #f3e6fc;
+  font-weight:600;
+}

@@ -1,0 +1,23 @@
+{% extends "admin/_base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Anti-Cheat Violations</h2>
+  <p class="muted">Most recent 200 events logged from tab-switch detection and copy/dev-tools protection.</p>
+  <table class="leaderboard">
+    <thead><tr><th>Time</th><th>Team</th><th>Round</th><th>Type</th><th>Detail</th></tr></thead>
+    <tbody>
+      {% for r in rows %}
+      <tr>
+        <td class="muted">{{ r.created_at }}</td>
+        <td>{{ r.team_name }}</td>
+        <td>{{ r.round_number }}</td>
+        <td>{{ r.type }}</td>
+        <td class="muted">{{ r.detail or '' }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="5" class="muted">No violations logged yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

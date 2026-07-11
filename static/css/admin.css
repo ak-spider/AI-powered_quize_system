@@ -1,0 +1,16 @@
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.grid .card{margin-bottom:0;border-left:4px solid var(--color-primary)}
+.grid .card h2{font-size:.95rem;text-transform:uppercase;letter-spacing:.03em;color:var(--color-muted)}
+
+form.inline{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-bottom:14px}
+form.inline button{margin-top:0}
+form.inline label{margin:0}
+
+/* status pill used on round control page */
+.pill{
+  display:inline-block;padding:4px 12px;border-radius:999px;
+  font-size:.8rem;font-weight:600;
+}
+.pill.open{ background: var(--color-success-light); color:#066654; }
+.pill.closed{ background:#f1eaf9; color:#5b1796; }
+.pill.finished{ background:#f3e6fc; color:var(--color-primary-dark); }

@@ -1,0 +1,40 @@
+{% extends "_base.html" %}
+{% block title %}Round {{ round_number }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">{% endblock %}
+{% block content %}
+<div id="anticheat-root"
+     data-report-url="{{ url_for('quiz.log_violation') }}"
+     data-max-violations="{{ max_violations }}"></div>
+<div id="violation-banner" class="violation-banner"></div>
+<div class="card no-select">
+  <div class="quiz-header">
+    <h2>Round {{ round_number }}</h2>
+    <div class="header-right">
+      <span id="violation-badge" class="violation-badge">Violations: 0/{{ max_violations }}</span>
+      <div class="timer" id="timer" data-duration="{{ duration }}">{{ duration }}s</div>
+    </div>
+  </div>
+  <p class="muted anticheat-notice">
+    This round is monitored: switching tabs, copying/pasting, right-click, and dev-tools
+    shortcuts are logged. Accumulating {{ max_violations }} violations auto-submits your answers.
+  </p>
+  <form method="post" id="quiz-form" autocomplete="off">
+    <input type="hidden" name="auto_submitted" id="auto-submitted-input" value="0">
+    {% for q in questions %}
+      <div class="question">
+        <p><strong>{{ loop.index }}.</strong> {{ q.text }}</p>
+        {% for opt in ['A','B','C','D'] %}
+          <label class="opt">
+            <input type="radio" name="q_{{ q.id }}" value="{{ opt }}">
+            {{ opt }}. {{ q['option_' ~ opt|lower] }}
+          </label>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    <button type="submit">Submit Answers</button>
+  </form>
+</div>
+<script src="{{ url_for('static', filename='js/timer.js') }}"></script>
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+<script src="{{ url_for('static', filename='js/anticheat.js') }}"></script>
+{% endblock %}

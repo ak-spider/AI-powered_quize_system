@@ -1,0 +1,84 @@
+{% extends "admin/_base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Round Control</h2>
+  <p>Current round: <strong>{{ quiz_status.current_round }}</strong>
+     · Round:
+     <span class="pill {{ 'open' if quiz_status.round_open else 'closed' }}">
+       {{ 'Open' if quiz_status.round_open else 'Closed' }}
+     </span>
+     {% if quiz_status.finished %}<span class="pill finished">Quiz Finished</span>{% endif %}
+     · Duration: <strong>{{ quiz_status.round_duration }}s</strong></p>
+
+  <form method="post" class="inline">
+    <button name="action" value="open">Open Round</button>
+    <button name="action" value="close">Close Round</button>
+    <button name="action" value="next">Next Round</button>
+    <button name="action" value="finish" class="danger">Finish Quiz</button>
+    <button name="action" value="reset" class="danger" onclick="return confirm('Reset all results & rounds?')">Reset All</button>
+  </form>
+
+  <form method="post" class="inline">
+    <input type="hidden" name="action" value="duration">
+    <label>Round duration (sec)<input type="number" name="duration" min="10" value="{{ quiz_status.round_duration }}"></label>
+    <button type="submit">Save</button>
+  </form>
+
+  <p class="muted">Available rounds with questions: {{ rounds|join(', ') or 'none' }}</p>
+  <p class="muted">
+    Rounds opened so far: <strong>{{ opened_rounds|join(', ') or 'none' }}</strong> —
+    each team plays through these at its own pace; opening a new round
+    doesn't take earlier rounds away from teams still finishing them.
+  </p>
+</div>
+
+<div class="card">
+  <h2>Automatic Start Scheduling</h2>
+  <p>
+    Status:
+    <span class="pill {{ 'open' if schedule_status == 'Live' else ('closed' if schedule_status == 'Upcoming' else 'finished') }}">
+      {{ schedule_status }}
+    </span>
+    {% if quiz_status.start_datetime %}
+      · Scheduled for: <strong>{{ quiz_status.start_datetime | replace('T', ' ') }}</strong>
+    {% endif %}
+  </p>
+  
+  <form method="post" class="inline">
+    <input type="hidden" name="action" value="set_schedule">
+    <label>Start date &amp; time
+      <input type="datetime-local" name="start_datetime"
+             value="{{ quiz_status.start_datetime or '' }}">
+    </label>
+    <button type="submit">Save Schedule</button>
+  </form>
+  {% if quiz_status.start_datetime %}
+  <form method="post" class="inline">
+    <input type="hidden" name="action" value="clear_schedule">
+    <button type="submit" class="danger">Clear Schedule</button>
+  </form>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2>Auto-Advance Rounds</h2>
+  <p>
+    Auto-advance is currently:
+    <span class="pill {{ 'open' if quiz_status.auto_advance else 'closed' }}">
+      {{ 'Enabled' if quiz_status.auto_advance else 'Disabled' }}
+    </span>
+    · Submitted this round: <strong>{{ submitted_count }}/{{ team_count }}</strong> enabled teams
+  </p>
+  
+  <form method="post" class="inline">
+    <input type="hidden" name="action" value="toggle_auto_advance">
+    {% if quiz_status.auto_advance %}
+      <input type="hidden" name="enabled" value="0">
+      <button type="submit" class="danger">Disable Auto-Advance</button>
+    {% else %}
+      <input type="hidden" name="enabled" value="1">
+      <button type="submit">Enable Auto-Advance</button>
+    {% endif %}
+  </form>
+</div>
+{% endblock %}

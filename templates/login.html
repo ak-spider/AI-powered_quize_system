@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>Team Login</h2>
+  <p class="muted">New team? Just type your team name — we'll create it.</p>
+  <form method="post">
+    <label>Team name<input type="text" name="team_name" required autofocus></label>
+    <button type="submit">Enter</button>
+  </form>
+  <p class="muted"><a href="{{ url_for('admin.login') }}">Admin login</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+ how to run this squize   2nd 3th time using mean
+  
+  1.cd "C:\Users\akash\OneDrive\Attachments  \quize\loveable final 24\quiz_system"
+  2.dir
+   3.pip install -r requirements.txt
+    4.python app.py 
+
+
+for ulr creation cloudflara ( flask) 
+  1. open cmd 
+    2.cd C:\cloudflared   ( file path)
+    3.cloudflared tunnel --url http://localhost:5000
+    4.  it will create  link --->https://funky-miami-pdas-anywhere.trycloudflare.com

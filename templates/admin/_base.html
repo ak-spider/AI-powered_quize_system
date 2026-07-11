@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>{% block title %}Admin{% endblock %}</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head><body>
+<header class="topbar admin">
+  <h1>Admin Panel</h1>
+  <nav>
+    {% if session.is_admin %}
+      <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('admin.login_validation') }}">Login Data Validation</a>
+      <a href="{{ url_for('admin.round_control') }}">Rounds</a>
+      <a href="{{ url_for('admin.questions') }}">Questions</a>
+      <a href="{{ url_for('admin.leaderboard') }}">Leaderboard</a>
+      <a href="{{ url_for('admin.results') }}">Results</a>
+      <a href="{{ url_for('admin.violations') }}">Violations</a>
+      <a href="{{ url_for('admin.winner') }}">Winner</a>
+      <a href="{{ url_for('admin.logout') }}">Logout</a>
+    {% endif %}
+  </nav>
+</header>
+<main class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body></html>

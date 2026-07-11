@@ -1,0 +1,22 @@
+{% extends "admin/_base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Results by Round</h2>
+  {% for round_no, rows in data.items() %}
+    <h3>Round {{ round_no }}</h3>
+    <table class="leaderboard">
+      <thead><tr><th>Team</th><th>Score</th><th>Violations</th><th>Auto-submitted</th></tr></thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>{{ r.name }}</td>
+          <td>{{ r.score }}</td>
+          <td>{{ r.violation_count }}</td>
+          <td>{{ 'Yes' if r.auto_submitted else 'No' }}</td>
+        </tr>
+        {% else %}<tr><td colspan="4" class="muted">No submissions.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+</div>
+{% endblock %}

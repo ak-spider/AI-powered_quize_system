@@ -1,0 +1,53 @@
+{% extends "_base.html" %}
+{% block title %}Waiting{% endblock %}
+{% block content %}
+<div class="card center">
+  {% if locked %}
+    <h2>Quiz Scheduled</h2>
+    <p id="quiz-status-msg" class="flash error">Quiz has not started yet.</p>
+    {% if start_datetime %}
+      <p class="muted">Starts at: <strong>{{ start_datetime | replace('T', ' ') }}</strong></p>
+    {% endif %}
+    <button id="start-quiz-btn" disabled>Start Quiz</button>
+  {% else %}
+    <h2>Round {{ round_number }} — Waiting</h2>
+    <p id="quiz-status-msg">Please wait for the admin to start this round…</p>
+    <button id="start-quiz-btn" disabled>Start Quiz</button>
+  {% endif %}
+  <div class="spinner"></div>
+</div>
+<script>
+  const statusMsg = document.getElementById("quiz-status-msg");
+  const startBtn = document.getElementById("start-quiz-btn");
+
+  startBtn.addEventListener("click", () => {
+    location.href = "{{ url_for('quiz.quiz') }}";
+  });
+
+  // Continuously re-checks the SERVER's clock (via the API, never the
+  // browser's own Date object) so the button can only ever unlock when
+  // the server says the quiz is actually live.
+  setInterval(async () => {
+    const r = await fetch("{{ url_for('quiz.status') }}");
+    const s = await r.json();
+
+    if (s.finished || s.your_mode === "finished") {
+      location.href = "{{ url_for('quiz.thank_you') }}";
+      return;
+    }
+
+    if (s.can_start && s.your_mode === "active") {
+      statusMsg.textContent = "Quiz is live!";
+      statusMsg.classList.remove("error");
+      startBtn.disabled = false;
+      // Auto-begin without requiring the student to click anything.
+      location.href = "{{ url_for('quiz.quiz') }}";
+    } else if (!s.can_start) {
+      statusMsg.textContent = "Quiz has not started yet.";
+      startBtn.disabled = true;
+    } else if (s.your_round) {
+      statusMsg.textContent = "Waiting for round " + s.your_round + " to open…";
+    }
+  }, 2000);
+</script>
+{% endblock %}

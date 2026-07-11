@@ -1,0 +1,39 @@
+{% extends "admin/_base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Add Question</h2>
+  <form method="post">
+    <label>Round number<input type="number" name="round_number" min="1" required></label>
+    <label>Question<input name="text" required></label>
+    <div class="grid">
+      <label>A<input name="option_a" required></label>
+      <label>B<input name="option_b" required></label>
+      <label>C<input name="option_c" required></label>
+      <label>D<input name="option_d" required></label>
+    </div>
+    <label>Correct option (A-D)<input name="correct_option" maxlength="1" required></label>
+    <button type="submit">Add</button>
+  </form>
+</div>
+<div class="card">
+  <h2>All Questions</h2>
+  <table class="leaderboard">
+    <thead><tr><th>#</th><th>Round</th><th>Question</th><th>Correct</th><th></th></tr></thead>
+    <tbody>
+    {% for q in questions %}
+      <tr>
+        <td>{{ q.id }}</td><td>{{ q.round_number }}</td>
+        <td>{{ q.text }}</td><td>{{ q.correct_option }}</td>
+        <td>
+          <form method="post" style="display:inline">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="id" value="{{ q.id }}">
+            <button class="danger" onclick="return confirm('Delete?')">x</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
